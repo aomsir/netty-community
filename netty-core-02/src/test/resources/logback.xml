@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+                <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS}  [%-5level] ---- [%-10thread] %-50logger{50}: %message%n</pattern>
+            </encoder>
+    </appender>
+
+    <!--debug只输出com.aomsir包下的内容,不向上传导-->
+<!--    <logger name="com.aomsir" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref= "STDOUT" />-->
+<!--    </logger>-->
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

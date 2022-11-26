@@ -1,0 +1,3 @@
+# Project exclude paths
+/netty-basic-01/target/
+/netty-core-02/target/

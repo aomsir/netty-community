@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aomsir</title>
+    <script type="text/javascript">
+        let socket
+        if (window.WebSocket) {
+            socket = new WebSocket("ws://localhost:8000/aomsir")
+
+            socket.onmessage = function (result) {
+                let receiveMessage = document.getElementById('receiveMessage')
+                receiveMessage.value = result.data + "\n"
+            }
+
+            socket.onclose = function (result) {
+                let receiveMessage = document.getElementById('receiveMessage')
+                receiveMessage.value =  "连接关闭" + "\n"
+            }
+        }
+        // 发送ws请求
+        function send() {
+            let message = document.getElementById('message')
+            if (socket.readyState == WebSocket.OPEN) {
+                socket.send(message.value)
+            }
+        }
+    </script>
+</head>
+<body>
+    <textarea id="message" style="height: 300px;width: 300px;">
+
+    </textarea>
+    <input type="button" value="click" onclick="send()">
+    <textarea id="receiveMessage" style="height: 300px;width: 300px;">
+
+    </textarea>
+</body>
+</html>
