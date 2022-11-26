@@ -62,7 +62,7 @@ public class MyNettyServer {
                                 ctx.channel().close();
                                 log.error("关闭channel");
                             } else if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
-                                // ctx.writeAndFlush(new PongMessage("server"));
+                                ctx.writeAndFlush(new PongMessage("server"));
                             }
                         }
                     }).addLast(LOGINREQUESTMESSAGEHANDLER);

@@ -70,6 +70,7 @@ public class MyNettyClient {
                                 log.error("关闭channel");
                                 ChannelFuture close = ctx.channel().close();
 
+                                log.error("重连");
                                 SERVER_ERROR.set(true);
                                 // close.addListener(new ChannelFutureListener() {
                                 //     @Override
@@ -83,7 +84,6 @@ public class MyNettyClient {
                     });
 
                     ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
-
                         @Override
                         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                             log.debug("receive data {}", msg);
