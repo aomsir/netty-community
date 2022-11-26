@@ -1,4 +1,4 @@
-package com.aomsir.netty.message;
+package com.aomsir.netty15.message;
 
 public interface MessageType {
     int LOGIN_REQUEST_MESSAGE = 1;
@@ -15,6 +15,4 @@ public interface MessageType {
     int GROUP_CHAT_RESPONSE_MESSAGE = 8;
 
     int PING_MESSAGE = 9;
-
-    int PONG_MESSAGE = 10;
 }

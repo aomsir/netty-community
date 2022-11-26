@@ -1,4 +1,4 @@
-package com.aomsir.netty.message;
+package com.aomsir.netty15.message;
 
 
 import lombok.Data;
@@ -19,8 +19,8 @@ public class MessageTypeToClass {
         messageClasses.put(MessageType.GROUP_CREATE_RESPONSE_MESSAGE, GroupCreateResponseMessage.class);
         messageClasses.put(MessageType.GROUP_CHAT_REQUEST_MESSAGE, GroupChatRequestMessage.class);
         messageClasses.put(MessageType.GROUP_CHAT_RESPONSE_MESSAGE, GroupChatResponseMessage.class);
-        messageClasses.put(MessageType.PING_MESSAGE, PingMessage.class);
-        messageClasses.put(MessageType.PONG_MESSAGE, PongMessage.class);
+        messageClasses.put(MessageType.PING_MESSAGE, PPingMessage.class);
+
     }
 
 
