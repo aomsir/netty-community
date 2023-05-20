@@ -32,7 +32,7 @@ public class TestEmbeddedHandler {
         ChannelInboundHandlerAdapter h2 = new ChannelInboundHandlerAdapter() {
             @Override
             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                log.debug("h2");
+                log.debug("h2,{}",msg);
                 super.channelRead(ctx, msg);
             }
         };
@@ -40,7 +40,7 @@ public class TestEmbeddedHandler {
         ChannelInboundHandlerAdapter h3 = new ChannelInboundHandlerAdapter() {
             @Override
             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                log.debug("h3");
+                log.debug("h3,{}",msg);
                 super.channelRead(ctx, msg);
             }
         };

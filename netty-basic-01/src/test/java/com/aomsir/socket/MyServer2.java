@@ -23,13 +23,13 @@ public class MyServer2 {
         // 引入监管者
         Selector selector = Selector.open();
 
-        // 让serverSocketChannel被selector管理
+        // 让serverSocketChannel注册到监管者Selector上，并监控ServerSocketChannel的accept状态
         SelectionKey selectionKey = serverSocketChannel.register(selector, 0, null);
         selectionKey.interestOps(SelectionKey.OP_ACCEPT);   // 监控accept
 
         // 监控
         while (true) {
-            selector.select();  // 等待,只有监控到有实际的连接或读写操作才会处理。(实际的连接,监控到的)
+            selector.select();  // 等待,只有监控到有实际的连接(ACCEPT)或读写操作才会处理。(实际的连接,监控到的)
                                 // 监控到以后才会将ssc或者sc保存至 SelectionKeys(HashSet)里
 
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();

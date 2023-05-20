@@ -5,6 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
+/**
+ * 登录请求Message
+ * 包含 用户名、密码
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

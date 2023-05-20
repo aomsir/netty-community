@@ -5,6 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 通用响应Message
+ */
+
 @Data
 @ToString
 @AllArgsConstructor

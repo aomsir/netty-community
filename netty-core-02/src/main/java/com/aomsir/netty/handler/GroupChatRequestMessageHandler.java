@@ -17,7 +17,7 @@ import java.util.List;
  * @Date: 2022/11/24
  * @Description:
  * @Email: info@say521.cn
- * @GitHub: https://github.com/aomsir
+ * @GitHub: <a href="https://github.com/aomsir">GitHub</a>
  */
 @ChannelHandler.Sharable
 @Slf4j

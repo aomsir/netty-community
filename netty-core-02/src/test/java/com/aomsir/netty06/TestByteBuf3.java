@@ -26,7 +26,7 @@ public class TestByteBuf3 {
 
         ByteBuf s2 = buffer.slice(6, 4);
         System.out.println("s2 = " + s2);
-         s2.retain();
+        // s2.retain();
 
         buffer.release();  //
         System.out.println(ByteBufUtil.prettyHexDump(s1));

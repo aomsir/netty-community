@@ -8,12 +8,13 @@ import java.util.Map;
 /**
  * @Author: Aomsir
  * @Date: 2022/11/24
- * @Description:
+ * @Description: 会话
  * @Email: info@say521.cn
- * @GitHub: https://github.com/aomsir
+ * @GitHub: <a href="https://github.com/aomsir">GitHub</a>
  */
 public class Session {
 
+    // 用户名与channel双向绑定
     private static final Map<String, Channel> usernameChannelMap = new HashMap<>();
     private static final Map<Channel, String> channelUserMap = new HashMap<>();
 

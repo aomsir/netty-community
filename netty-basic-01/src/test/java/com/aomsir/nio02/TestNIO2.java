@@ -8,9 +8,9 @@ import java.nio.channels.FileChannel;
 /**
  * @Author: Aomsir
  * @Date: 2022/10/15
- * @Description:
+ * @Description: Channel与Buffer读 - 优化案例 - 采用异常处理
  * @Email: info@say521.cn
- * @GitHub: https://github.com/aomsir
+ * @GitHub: <a href="https://github.com/aomsir">GitHub</a>
  */
 public class TestNIO2 {
     public static void main(String[] args) {

@@ -9,20 +9,28 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
 
+/**
+ * 编码器
+ */
+
 @Slf4j
 public class ChatMessageToByteEncoder extends MessageToByteEncoder<Message> {
 
+    // 协议，版本，序列化都是规定好的，解码的时候直接取出即可
     @Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
         log.debug("encode method invoke ");
+
         //1. 幻术 4个字节 suns
         out.writeBytes(new byte[]{'s', 'u', 'n', 's'});
+
         //2. 协议版本 1个字节
         out.writeByte(1);
-        //3. 序列化方式 1个字节 1.json 2 protobuf 3 hession
+
+        //3. 序列化方式 1个字节 1.json 2 protobuf 3 hessian(目前只使用JSON)
         out.writeByte(1);
 
-        //4. 根据消息获取功能指令
+        //4. 获取消息的类型(为一个整数)
         out.writeByte(msg.getMessageType());
 
         // 将消息封装成json

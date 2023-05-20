@@ -3,6 +3,11 @@ package com.aomsir.netty.message;
 import lombok.Data;
 import lombok.ToString;
 
+
+/**
+ * 群组消息响应Message
+ * 包含 从哪里发、消息内容、状态码，原因
+ */
 @Data
 @ToString(callSuper = true)
 public class GroupChatResponseMessage extends AbstractResponseMessage {

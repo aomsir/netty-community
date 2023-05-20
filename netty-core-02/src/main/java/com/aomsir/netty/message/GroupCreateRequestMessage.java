@@ -6,6 +6,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+
+/**
+ * 群组创建Message
+ * 包含 群组内容、成员列表
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

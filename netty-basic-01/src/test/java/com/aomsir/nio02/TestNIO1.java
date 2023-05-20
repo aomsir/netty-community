@@ -8,7 +8,7 @@ import java.nio.channels.FileChannel;
 /**
  * @Author: Aomsir
  * @Date: 2022/10/15
- * @Description:
+ * @Description: Channel与Buffer读 - 初始案例
  * @Email: info@say521.cn
  * @GitHub: https://github.com/aomsir
  */

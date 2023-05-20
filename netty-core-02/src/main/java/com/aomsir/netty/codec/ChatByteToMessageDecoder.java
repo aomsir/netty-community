@@ -11,12 +11,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.charset.Charset;
 import java.util.List;
 
+/**
+ * 解码器
+ */
+
 @Slf4j
 public class ChatByteToMessageDecoder extends ByteToMessageDecoder{
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         log.debug("decode method invoke....");
+
         //1. 幻数  4个字节
         ByteBuf byteBuf = in.readBytes(4);
         log.debug("幻数是 {}",byteBuf.toString(Charset.defaultCharset()));
@@ -29,7 +34,7 @@ public class ChatByteToMessageDecoder extends ByteToMessageDecoder{
         byte serializableNo = in.readByte();
         log.debug("序列化方式 {} ",serializableNo);
 
-        //4. 功能指令
+        //4. 功能指令(就是消息类型)
         byte funcNo = in.readByte();
         log.debug("功能指令 {} ",funcNo);
 
@@ -41,7 +46,10 @@ public class ChatByteToMessageDecoder extends ByteToMessageDecoder{
         Message message = null;
         if(serializableNo == 1){
             ObjectMapper objectMapper = new ObjectMapper();
-            message = objectMapper.readValue(in.readCharSequence(contentLength,Charset.defaultCharset()).toString(), MessageTypeToClass.messageClasses.get((int)funcNo));
+
+            // 将ByteBuf中的内容取出来，反序列化成Message类型
+            message = objectMapper.readValue(in.readCharSequence(contentLength,Charset.defaultCharset()).toString(),
+                    MessageTypeToClass.messageClasses.get((int)funcNo));
         }
         out.add(message);
     }

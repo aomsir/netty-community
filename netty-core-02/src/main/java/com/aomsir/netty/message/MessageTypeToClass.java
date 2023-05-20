@@ -6,8 +6,12 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 消息类型转换为消息Class
+ */
 @Data
 public class MessageTypeToClass {
+    // 设计巧妙，key为整数类型，value为Message的子类
     public static final Map<Integer, Class<? extends Message>> messageClasses = new HashMap<>();
 
     static {

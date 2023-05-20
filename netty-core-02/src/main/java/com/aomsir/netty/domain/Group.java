@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @Author: Aomsir
  * @Date: 2022/11/24
- * @Description:
+ * @Description: 群组实体类
  * @Email: info@say521.cn
  * @GitHub: https://github.com/aomsir
  */

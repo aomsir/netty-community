@@ -34,9 +34,9 @@ public class MyNettyClient {
 
         CountDownLatch WAIT_LOGIN = new CountDownLatch(1);
 
+        // 原子性的
         AtomicBoolean LOGIN = new AtomicBoolean(false);
         AtomicBoolean SERVER_ERROR = new AtomicBoolean(false);
-
 
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         LoggingHandler LOGGING_HANDLER = new LoggingHandler();
@@ -49,14 +49,15 @@ public class MyNettyClient {
             bootstrap.handler(new ChannelInitializer<NioSocketChannel>() {
                 @Override
                 protected void initChannel(NioSocketChannel ch) throws Exception {
-                    // 封帧
+                    // 封帧解码器
                     ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(1024, 7, 4, 0, 0));
                     ch.pipeline().addLast(LOGGING_HANDLER);
 
-                    // 编解码器
+                    // 编解码器(将ByteBuf转换为Message/将Message转换为ByteBuf)
                     ch.pipeline().addLast(new ChatMessageToByteEncoder());
                     ch.pipeline().addLast(new ChatByteToMessageDecoder());
 
+                    // 心跳检测
                     ch.pipeline().addLast(new IdleStateHandler(8, 3, 0, TimeUnit.SECONDS));
                     ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
                         @Override
@@ -83,9 +84,13 @@ public class MyNettyClient {
                         }
                     });
 
+                    // 从Channel中读取数据
                     ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+
+                        // 在接收到新的数据时被调用
                         @Override
                         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                            // 直接拿msg进行读取
                             log.debug("receive data {}", msg);
 
                             if (msg instanceof LoginResponseMessage) {
@@ -97,11 +102,10 @@ public class MyNettyClient {
                             }
                         }
 
-                        // channel不活跃了
+                        // channel不活跃
                         @Override
                         public void channelInactive(ChannelHandlerContext ctx) throws Exception {
                             if (SERVER_ERROR.get()) {
-
                                 /**
                                  * 最好不要这样子写,当前执行这行代码的线程会被netty回收,所以在这里直连不好
                                  * Channel channel = bootstrap.connect(new InetSocketAddress(8000)).sync().channel();
@@ -145,9 +149,11 @@ public class MyNettyClient {
                             log.error("client is closed");
                         }
 
+                        // 在与远程节点建立连接并且连接处于活动状态时被调用
                         @Override
                         public void channelActive(ChannelHandlerContext ctx) throws Exception {
                             // 用户名、让scanner进行输入
+                            // 创建线程并启动
                             new Thread(() -> {
                                 System.out.println("请输入用户名:");
                                 String username = scanner.nextLine();
@@ -174,8 +180,8 @@ public class MyNettyClient {
                                 while (true) {
                                     System.out.println("==========================");
                                     System.out.println("send [username] [content]");
-                                    System.out.println("gcreate [group name] [m1,m2,m3...]");
-                                    System.out.println("gsend [group name] [content]");
+                                    System.out.println("gCreate [group name] [m1,m2,m3...]");
+                                    System.out.println("gSend [group name] [content]");
                                     System.out.println("quit");
                                     System.out.println("==========================");
 
@@ -185,14 +191,14 @@ public class MyNettyClient {
                                         case "send":
                                             ctx.writeAndFlush(new ChatRequestMessage(username, args[1], args[2]));
                                             break;
-                                        case "gcreate":
+                                        case "gCreate":
                                             String groupName = args[1];
                                             String[] membersString = args[2].split(",");
                                             Set<String> members = new HashSet<>(Arrays.asList(membersString));
                                             members.add(username);
                                             ctx.writeAndFlush(new GroupCreateRequestMessage(groupName, members));
                                             break;
-                                        case "gsend":
+                                        case "gSend":
                                             String gName = args[1];
                                             String content = args[2];
                                             ctx.writeAndFlush(new GroupChatRequestMessage(username, gName, content));
@@ -214,6 +220,8 @@ public class MyNettyClient {
         } catch (InterruptedException e) {
             log.error("client error ", e);
         } finally {
+
+            // 优雅的关闭连接
             eventLoopGroup.shutdownGracefully();
         }
 

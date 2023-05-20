@@ -14,12 +14,11 @@ import java.nio.charset.Charset;
  */
 public class TestNIO11 {
     public static void main(String[] args) throws Exception{
-        String data = "Aomsir";
-
         // 1.获取channel
         FileChannel channel = new FileOutputStream("data1.txt").getChannel();
 
         // 2.获取buffer
+        String data = "Aomsir";
         ByteBuffer buffer = Charset.forName("UTF-8").encode(data);
 
         // 3.write

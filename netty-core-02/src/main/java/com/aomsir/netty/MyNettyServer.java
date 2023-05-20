@@ -23,21 +23,22 @@ import java.util.concurrent.TimeUnit;
 public class MyNettyServer {
 
     public static void main(String[] args) {
-        LoggingHandler LOGGING_HANDLER = new LoggingHandler();
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        LoggingHandler LOGGING_HANDLER = new LoggingHandler();           // 日志处理器
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);    // boss线程 1个
+        EventLoopGroup workerGroup = new NioEventLoopGroup();            // worker线程 2*CPU核心数
 
         // 自定义消息handler
-        LoginRequestMessageHandler LOGINREQUESTMESSAGEHANDLER = new LoginRequestMessageHandler();
-        ChatRequestMessageHandler CHATREQUESTMESSAGEHANDLER = new ChatRequestMessageHandler();
-        GroupChatRequestMessageHandler GROUPCHATREQUESTMESSAGEHANDLER = new GroupChatRequestMessageHandler();
-        GroupCreateMessageHandler GROUPCREATEMESSAGEHANDLER = new GroupCreateMessageHandler();
+        LoginRequestMessageHandler LOGIN_REQUEST_MESSAGE_HANDLER = new LoginRequestMessageHandler();
+        ChatRequestMessageHandler CHAT_REQUEST_MESSAGE_HANDLER = new ChatRequestMessageHandler();
+        GroupChatRequestMessageHandler GROUP_CHAT_REQUEST_MESSAGE_HANDLER = new GroupChatRequestMessageHandler();
+        GroupCreateMessageHandler GROUP_CREATE_MESSAGE_HANDLER = new GroupCreateMessageHandler();
         QuitHandler QUITHANDLER = new QuitHandler();
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.channel(NioServerSocketChannel.class);
             serverBootstrap.group(bossGroup, workerGroup);
+
             serverBootstrap.childHandler(new ChannelInitializer<NioSocketChannel>() {
                 @Override
                 protected void initChannel(NioSocketChannel ch) throws Exception {
@@ -65,12 +66,12 @@ public class MyNettyServer {
                                 ctx.writeAndFlush(new PongMessage("server"));
                             }
                         }
-                    }).addLast(LOGINREQUESTMESSAGEHANDLER);
+                    }).addLast(LOGIN_REQUEST_MESSAGE_HANDLER);
 
                     //消息处理器
-                    pipeline.addLast(CHATREQUESTMESSAGEHANDLER);
-                    pipeline.addLast(GROUPCHATREQUESTMESSAGEHANDLER);
-                    pipeline.addLast(GROUPCREATEMESSAGEHANDLER);
+                    pipeline.addLast(CHAT_REQUEST_MESSAGE_HANDLER);
+                    pipeline.addLast(GROUP_CHAT_REQUEST_MESSAGE_HANDLER);
+                    pipeline.addLast(GROUP_CREATE_MESSAGE_HANDLER);
                     pipeline.addLast(QUITHANDLER);
 
                 }

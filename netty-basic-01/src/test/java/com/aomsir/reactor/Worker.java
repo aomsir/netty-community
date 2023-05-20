@@ -20,10 +20,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @Email: info@say521.cn
  * @GitHub: https://github.com/aomsir
  */
-public class Worker implements Runnable{
+public class Worker implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(Worker.class);
     private Selector selector;  // 自己用自己的selector,不建议暴露给Boss
-    private Thread thread;      // 自己用自己的selector,不建议暴露给Boss
+    private Thread thread;
     private String name;
 
     // 通过volatile进行线程同步
@@ -91,8 +91,6 @@ public class Worker implements Runnable{
                         buffer.flip();
                         String result = Charset.defaultCharset().decode(buffer).toString();
                         System.out.println("result = " + result);
-
-
                     }
                 }
             } catch (IOException e) {

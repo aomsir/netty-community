@@ -2,6 +2,10 @@ package com.aomsir.netty.message;
 
 import lombok.Data;
 
+/**
+ * ping请求Message
+ */
+
 @Data
 public class PingMessage extends Message {
 
